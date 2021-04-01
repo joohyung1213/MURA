@@ -13,11 +13,11 @@ import os
 phase_cat = ['train', 'valid']
 
 
-def get_study_data(study_type):
+def get_study_data(study_type, DIR):
     case_data = {}
     case_label = {'positive': 1, 'negative': 0}
     for phase in phase_cat:
-        BASE_DIR = 'D:/MURA-v1.1/{0}/{1}/'.format(phase, study_type)
+        BASE_DIR = DIR.format(phase, study_type)
         # test = list(os.walk(BASE_DIR))
         patients = list(os.walk(BASE_DIR))[0][1]
         case_data[phase] = pd.DataFrame(columns=['Path', 'Count', 'Label'])
@@ -68,5 +68,5 @@ def get_dataloaders(data, batch_size=8):
         ])
     }
     image_datasets = {x: CustomDataset(data[x], transform=data_transforms[x]) for x in phase_cat}
-    data_loaders = {x: DataLoader(image_datasets[x], batch_size=batch_size, shuffle=True) for x in data_cat}
+    data_loaders = {x: DataLoader(image_datasets[x], batch_size=batch_size, shuffle=True) for x in phase_cat}
     return data_loaders
