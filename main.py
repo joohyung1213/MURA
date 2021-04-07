@@ -11,6 +11,7 @@ def init():
     case_data = get_study_data('XR_' + part_of_body, 'D:/MURA-v1.1/{0}/{1}/')
     dataloaders = get_dataloaders(case_data, batch_size=1)
 
+    # train abnormal, normal images
     tai = {x: get_count(case_data[x], 'positive') for x in phase_cat}
     tni = {x: get_count(case_data[x], 'negative') for x in phase_cat}
     Wt1 = {x: np_tensor(tni[x] / (tni[x] + tai[x])) for x in phase_cat}
